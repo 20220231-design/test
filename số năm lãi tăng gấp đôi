@@ -10,9 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: 'Roboto',
-      ),
+      theme: ThemeData(fontFamily: 'Roboto'),
       home: MyHomePage(),
     );
   }
@@ -30,19 +28,37 @@ class _MyHomePageState extends State<MyHomePage> {
   String ketQua = "";
 
   void tinhToan() {
+    double tien = double.tryParse(tienController.text) ?? 0;
     double lai = double.tryParse(laiController.text) ?? 0;
-    double r = lai / 100;
 
-    if (r > 0) {
-      double nam = log(2) / log(1 + r);
-      setState(() {
-        ketQua = "${nam.toStringAsFixed(2)} năm";
-      });
+    double r;
+
+    // Xử lý lãi suất linh hoạt
+    if (lai > 1) {
+      r = lai / 100; // 10 -> 10%
     } else {
-      setState(() {
-        ketQua = "Nhập lãi suất hợp lệ";
-      });
+      r = lai; // 0.1 -> 10%
     }
+
+    if (tien <= 0) {
+      setState(() {
+        ketQua = "Vui lòng nhập số tiền hợp lệ";
+      });
+      return;
+    }
+
+    if (r <= 0) {
+      setState(() {
+        ketQua = "Vui lòng nhập lãi suất hợp lệ";
+      });
+      return;
+    }
+
+    double nam = log(2) / log(1 + r);
+
+    setState(() {
+      ketQua = "${nam.toStringAsFixed(2)} năm để tiền gấp đôi";
+    });
   }
 
   @override
@@ -72,7 +88,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 SizedBox(height: 30),
 
-                // CARD
                 Container(
                   padding: EdgeInsets.all(20),
                   decoration: BoxDecoration(
@@ -92,16 +107,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         controller: tienController,
                         label: "Số tiền",
                         icon: Icons.attach_money,
+                        helper: "Nhập số tiền ban đầu",
                       ),
                       SizedBox(height: 15),
                       buildInput(
                         controller: laiController,
-                        label: "Lãi suất (%)",
+                        label: "Lãi suất",
                         icon: Icons.percent,
+                        helper: "Nhập 10 (%) hoặc 0.1",
                       ),
                       SizedBox(height: 25),
 
-                      // BUTTON
                       SizedBox(
                         width: double.infinity,
                         height: 50,
@@ -120,7 +136,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
                       SizedBox(height: 25),
 
-                      // RESULT
                       if (ketQua.isNotEmpty)
                         Container(
                           padding: EdgeInsets.all(15),
@@ -131,14 +146,15 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Column(
                             children: [
                               Text(
-                                "Số năm để gấp đôi",
+                                "Kết quả",
                                 style: TextStyle(color: Colors.grey),
                               ),
                               SizedBox(height: 5),
                               Text(
                                 ketQua,
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 22,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xFF2C5364),
                                 ),
@@ -161,6 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
     required TextEditingController controller,
     required String label,
     required IconData icon,
+    required String helper,
   }) {
     return TextField(
       controller: controller,
@@ -168,6 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
       decoration: InputDecoration(
         prefixIcon: Icon(icon),
         labelText: label,
+        helperText: helper,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
         ),
