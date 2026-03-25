@@ -1,0 +1,88 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: StudentPage(),
+    );
+  }
+}
+
+class StudentPage extends StatelessWidget {
+  const StudentPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Thông tin sinh viên"),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Card(
+          margin: const EdgeInsets.all(20),
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Ảnh đại diện
+                const CircleAvatar(
+                  radius: 50,
+                  backgroundImage:
+                      NetworkImage("https://scontent.fhan17-1.fna.fbcdn.net/v/t39.30808-1/557520719_2240212559778260_7482756337953979272_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=100&ccb=1-7&_nc_sid=1d2534&_nc_eui2=AeHsNTJ07FfLZHqqPlJ2FK00a--0wfQO2QJr77TB9A7ZAq4Yb-pNq-jWaP_dfrP5KRh28Fi828y5WBAfFx2CruvC&_nc_ohc=r8oK02QeFHMQ7kNvwFgpTKK&_nc_oc=AdqahCiw0aKsfEnvP0-QqkEVEJkhVXxZEXRRX1oXbamH_X67GE3Ddg05lAilo8UIoMA&_nc_zt=24&_nc_ht=scontent.fhan17-1.fna&_nc_gid=WX4Fm3GcJjcrYzej2hPaCQ&_nc_ss=7a32e&oh=00_AfwRLi1rcuFKriT4h86De5QfAIZEP2aeU3263sbVQdiH5A&oe=69C95A7D"),
+                ),
+                const SizedBox(height: 15),
+
+                // Tên
+                const Text(
+                  "Hà Bảo Linh",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                // Thông tin chi tiết
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Mã sinh viên: 20220231"),
+                ),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Lớp hành chính: DCCNTT 13.10.2"),
+                ),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Ngày sinh: 30/07/2004"),
+                ),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Email: nguyenvana@gmail.com"),
+                ),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("SĐT: 0345335491"),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
